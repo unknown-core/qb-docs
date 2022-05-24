@@ -266,7 +266,7 @@ Check if a player has the permission level needed
 ```lua
 function QBCore.Functions.HasPermission(source, permission)
 	local src = source
-	local license = QBCore.Functions.GetIdentifier(src, 'license')
+	local license = QBCore.Functions.GetIdentifier(src, QBConfig.Server.Identifier)
 	local permission = tostring(permission:lower())
 	if permission == 'user' then
 		return true
@@ -288,7 +288,7 @@ Get a players permission level
 ```lua
 function QBCore.Functions.GetPermission(source)
 	local src = source
-	local license = QBCore.Functions.GetIdentifier(src, 'license')
+	local license = QBCore.Functions.GetIdentifier(src, QBConfig.Server.Identifier)
 	if license then
 		if QBCore.Config.Server.PermissionList[license] then
 			if QBCore.Config.Server.PermissionList[license].license == license then
@@ -307,7 +307,7 @@ function QBCore.Functions.IsPlayerBanned(source)
 	local src = source
 	local retval = false
 	local message = ''
-	local plicense = QBCore.Functions.GetIdentifier(src, 'license')
+	local plicense = QBCore.Functions.GetIdentifier(src, QBConfig.Server.Identifier)
     local result = exports.oxmysql:fetchSync('SELECT * FROM bans WHERE license = ?', {plicense})
     if result[1] then
         if os.time() < result[1].expire then
@@ -330,7 +330,7 @@ function QBCore.Functions.IsLicenseInUse(license)
     for _, player in pairs(players) do
         local identifiers = GetPlayerIdentifiers(player)
         for _, id in pairs(identifiers) do
-            if string.find(id, 'license') then
+            if string.find(id, QBConfig.Server.Identifier) then
                 local playerLicense = id
                 if playerLicense == license then
                     return true
