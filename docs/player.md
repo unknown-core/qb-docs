@@ -45,7 +45,7 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     PlayerData = PlayerData or {}
     PlayerData.source = src
     PlayerData.citizenid = PlayerData.citizenid or QBCore.Player.CreateCitizenId()
-    PlayerData.license = PlayerData.license or QBCore.Functions.GetIdentifier(src, QBConfig.Server.Identifier)
+    PlayerData.license = PlayerData.license or QBCore.Functions.GetIdentifier(src, QBCore.Config.Server.Identifier)
     PlayerData.name = GetPlayerName(src)
     PlayerData.cid = PlayerData.cid or 1
     PlayerData.money = PlayerData.money or {}
@@ -522,7 +522,7 @@ local playertables = { -- Add tables here as needed
 
 function QBCore.Player.DeleteCharacter(source, citizenid)
 	local src = source
-	local license = QBCore.Functions.GetIdentifier(src, QBConfig.Server.Identifier)
+	local license = QBCore.Functions.GetIdentifier(src, QBCore.Config.Server.Identifier)
 	local result = exports.oxmysql:scalarSync('SELECT license FROM players where citizenid = ?', { citizenid })
 	if license == result then
 		for k,v in pairs(playertables) do
